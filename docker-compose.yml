@@ -1,0 +1,27 @@
+services:
+  mysql:
+    image: mariadb:10.5.8
+    restart: always
+    container_name: agendasystem_mysql
+    environment:
+      MYSQL_USER: usr_agenda
+      MYSQL_PASSWORD: agenda123$.
+      MYSQL_ROOT_PASSWORD: laCLAVEes123$.
+      MYSQL_DATABASE: db_agenda
+    ports:
+      - 3306:3306
+    volumes:
+      - ./data:/var/lib/mysql
+ 
+  backend:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    container_name: agendasystem_backend
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mysql
+
+
